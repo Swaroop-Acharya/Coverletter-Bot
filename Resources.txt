@@ -1,0 +1,2 @@
+https://github.com/ASoldo/telegram-bot-go
+https://github.com/go-telegram-bot-api/telegram-bot-api
