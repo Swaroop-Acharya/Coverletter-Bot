@@ -23,28 +23,6 @@ type coverletterData struct {
 	Closing         string
 }
 
-func handleHelp(bot *tgbotapi.BotAPI, update *tgbotapi.Update) {
-	helpText := `📖 SmartCover Bot Commands
-/start - Start the bot
-/help - Show this help menu
-/targetcompany - Set target company
-/currentcompany - Set your current company (optional)
-/role - Set job title
-/recruiter - Set recruiter or hiring manager
-/name - Set your nam
-/email - Set your email
-/phone - Set phone number
-/skills - Set skills summary (use ; as separator)
-/intro - Set intro paragraph
-/closing - Set closing paragraph
-/points - Set bullet points (use ; as separator)
-/location - Set location (optional)
-/preview - Preview details
-/printpdf - Generate and send the PDF`
-	msg := tgbotapi.NewMessage(update.Message.Chat.ID, helpText)
-	bot.Send(msg)
-}
-
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -61,6 +39,8 @@ func main() {
 
 	log.Printf("Autherized on account %s", bot.Self.UserName)
 
+	users := map[int64]*coverletterData{}
+
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
@@ -69,15 +49,18 @@ func main() {
 	for update := range updates {
 		if update.Message != nil {
 			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
+			chatID := update.Message.Chat.ID
+			if users[chatID] == nil {
+				users[chatID] = &coverletterData{}
+			}
+			cld := users[chatID]
 			switch update.Message.Command() {
 			case "start":
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "👋 Welcome to SmartCover Bot!\nUse /help to see available commands.")
-				bot.Send(msg)
+				cld.handleStart(bot, chatID)
 			case "help":
-				handleHelp(bot, &update)
+				cld.handleHelp(bot, chatID)
 			case "targetcompany":
-
+				cld.setTargetCompany(bot,chatID,update.Message.CommandArguments())
 			default:
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Command unavailable")
 				msg.ReplyToMessageID = update.Message.MessageID
