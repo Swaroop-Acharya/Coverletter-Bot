@@ -73,6 +73,8 @@ func main() {
 				cld.setStringField(bot, chatID, cmdArgs, FieldTargetRole)
 			case "currentrole":
 				cld.setStringField(bot, chatID, cmdArgs, FieldCurrentRole)
+			case "skills":
+				cld.setSkills(bot,chatID, cmdArgs)
 			case "intro":
 				cld.setStringField(bot, chatID, cmdArgs, FieldIntro)
 			case "closing":
