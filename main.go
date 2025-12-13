@@ -79,6 +79,8 @@ func main() {
 				cld.setStringField(bot, chatID, cmdArgs, FieldIntro)
 			case "closing":
 				cld.setStringField(bot, chatID, cmdArgs, FieldClosing)
+			case "preview":
+				cld.handlePreview(bot,chatID)
 			default:
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Command unavailable")
 				msg.ReplyToMessageID = update.Message.MessageID

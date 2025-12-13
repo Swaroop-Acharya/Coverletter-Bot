@@ -1,8 +1,9 @@
 package main
 
 import (
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"strings"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func (cld *coverletterData) handleStart(bot *tgbotapi.BotAPI, chatID int64) {
@@ -80,5 +81,21 @@ func (cld *coverletterData) setSkills(bot *tgbotapi.BotAPI, chatID int64, cmdArg
 		chatID,
 		"✅ Skills updated:\n• "+strings.Join(skills, "\n• "),
 	)
+	bot.Send(msg)
+}
+
+func (cld *coverletterData) handlePreview(bot *tgbotapi.BotAPI, chatID int64) {
+	if cld.isEmpty() {
+		bot.Send(tgbotapi.NewMessage(
+			chatID,
+			"❗ No details found yet.\nStart by using /targetcompany, /role, etc.",
+		))
+		return
+	}
+
+	preview := cld.formatPreview()
+
+	msg := tgbotapi.NewMessage(chatID, preview)
+	msg.ParseMode = "Markdown"
 	bot.Send(msg)
 }
