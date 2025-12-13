@@ -10,14 +10,13 @@ import (
 
 type coverletterData struct {
 	UserName        string
-	UserPhoneNumber int
+	UserPhoneNumber string
 	UserEmail       string
 	Skills          []string
 	TargetCompany   string
 	TargetRole      string
 	CurrentCompany  string
 	CurrentRole     string
-	Location        string
 	Points          []string
 	Intro           string
 	Closing         string
@@ -54,13 +53,30 @@ func main() {
 				users[chatID] = &coverletterData{}
 			}
 			cld := users[chatID]
+			cmdArgs := update.Message.CommandArguments()
 			switch update.Message.Command() {
 			case "start":
 				cld.handleStart(bot, chatID)
 			case "help":
 				cld.handleHelp(bot, chatID)
+			case "username":
+				cld.setStringField(bot, chatID, cmdArgs, FieldUserName)
+			case "useremail":
+				cld.setStringField(bot, chatID, cmdArgs, FieldUserEmail)
+			case "userphonenumber":
+				cld.setStringField(bot, chatID, cmdArgs, FieldUserPhone)
 			case "targetcompany":
-				cld.setTargetCompany(bot,chatID,update.Message.CommandArguments())
+				cld.setStringField(bot, chatID, cmdArgs, FieldTargetCompany)
+			case "currentcompany":
+				cld.setStringField(bot, chatID, cmdArgs, FieldCurrentCompany)
+			case "targetrole":
+				cld.setStringField(bot, chatID, cmdArgs, FieldTargetRole)
+			case "currentrole":
+				cld.setStringField(bot, chatID, cmdArgs, FieldCurrentRole)
+			case "intro":
+				cld.setStringField(bot, chatID, cmdArgs, FieldIntro)
+			case "closing":
+				cld.setStringField(bot, chatID, cmdArgs, FieldClosing)
 			default:
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Command unavailable")
 				msg.ReplyToMessageID = update.Message.MessageID
