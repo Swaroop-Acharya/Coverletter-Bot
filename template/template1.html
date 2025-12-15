@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        font-family: Arial, sans-serif;
+        color: #111;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .header {
+        margin-bottom: 24px;
+      }
+      .name {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .muted {
+        color: #555;
+        font-size: 14px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 16px 0 24px;
+      }
+      p {
+        margin: 12px 0;
+      }
+      ul {
+        margin: 8px 0 16px;
+        padding-left: 20px;
+      }
+      .signature {
+        margin-top: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <div class="name">{{applicant_name}}</div>
+        <div class="muted">
+          {{applicant_email}} | {{applicant_phone}} {{#if location}} |
+          {{location}}{{/if}}
+        </div>
+        <div class="muted">{{date}}</div>
+      </div>
+      <hr />
+
+      <p>
+        {{#if recruiter_name}} Dear {{recruiter_name}}, {{else}} Dear Hiring
+        Manager, {{/if}}
+      </p>
+
+      {{#if role}}
+      <p>
+        Subject: Application for {{role}}{{#if company_name}} at
+        {{company_name}}{{/if}}
+      </p>
+      {{/if}}
+
+      <p>{{intro_paragraph}}</p>
+
+      {{#if points}}
+      <ul>
+        {{#each points}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{/if}} {{#if skills_summary}}
+      <p>Key skills: {{skills_summary}}</p>
+      {{/if}}
+
+      <p>{{closing_paragraph}}</p>
+
+      <div class="signature">
+        Sincerely,<br />
+        {{applicant_name}}
+      </div>
+    </div>
+  </body>
+</html>
