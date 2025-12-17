@@ -24,11 +24,11 @@ type coverletterData struct {
 
 func main() {
 	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	botAPIToken := os.Getenv("API_TOKEN")
+	if botAPIToken == "" {
+		log.Fatal("API_TOKEN is not set")
+	}
+	
 	bot, err := tgbotapi.NewBotAPI(botAPIToken)
 	if err != nil {
 		log.Panic(err)
@@ -74,13 +74,13 @@ func main() {
 			case "currentrole":
 				cld.setStringField(bot, chatID, cmdArgs, FieldCurrentRole)
 			case "skills":
-				cld.setSkills(bot,chatID, cmdArgs)
+				cld.setSkills(bot, chatID, cmdArgs)
 			case "intro":
 				cld.setStringField(bot, chatID, cmdArgs, FieldIntro)
 			case "closing":
 				cld.setStringField(bot, chatID, cmdArgs, FieldClosing)
 			case "preview":
-				cld.handlePreview(bot,chatID)
+				cld.handlePreview(bot, chatID)
 			default:
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Command unavailable")
 				msg.ReplyToMessageID = update.Message.MessageID
