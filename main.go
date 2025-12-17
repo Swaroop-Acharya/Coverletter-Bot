@@ -23,7 +23,7 @@ type coverletterData struct {
 }
 
 func main() {
-	err := godotenv.Load()
+	_ = godotenv.Load()
 	botAPIToken := os.Getenv("API_TOKEN")
 	if botAPIToken == "" {
 		log.Fatal("API_TOKEN is not set")
