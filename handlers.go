@@ -99,3 +99,8 @@ func (cld *coverletterData) handlePreview(bot *tgbotapi.BotAPI, chatID int64) {
 	msg.ParseMode = "Markdown"
 	bot.Send(msg)
 }
+
+
+func (cld *coverletterData) handlePrint(bot *tgbotapi.BotAPI, chatID int64){
+
+}
